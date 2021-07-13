@@ -2,7 +2,10 @@ package com.dm.app_galeria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.dm.app_galeria.Adapters.PhotoAdapter;
@@ -33,5 +36,14 @@ public class ListPhotosActivity extends AppCompatActivity {
 
         PhotoAdapter adapter = new PhotoAdapter(this, photoModelArrayList);
         photosGridView.setAdapter(adapter);
+
+        Button addImage = findViewById(R.id.list_photos_btn_add);
+        addImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListPhotosActivity.this, UploadPhotoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
