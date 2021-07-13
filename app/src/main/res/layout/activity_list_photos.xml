@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ListPhotosActivity">
+
+    <TextView
+        android:id="@+id/list_photos_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@color/dark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        android:text="Lista de imagens"
+        android:textColor="@color/light"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:paddingTop="20dp"
+        />
+
+    <ListView
+        android:id="@+id/list_photos_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toTopOf="@id/list_photos_btn_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_photos_text_title"
+        app:layout_constraintVertical_bias="0"/>
+
+    <Button
+        android:id="@+id/list_photos_btn_add"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/primary"
+        android:text="Adicionar Imagem"
+        android:textColor="@color/light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".95" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
