@@ -22,17 +22,19 @@
         android:paddingTop="20dp"
         />
 
-    <ListView
-        android:id="@+id/list_photos_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
+    <GridView
+        android:id="@+id/list_photos_grid"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:numColumns="2"
+        android:layout_margin="8dp"
+        android:verticalSpacing="8dp"
+        android:horizontalSpacing="8dp"
         app:layout_constraintBottom_toTopOf="@id/list_photos_btn_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/list_photos_text_title"
-        app:layout_constraintVertical_bias="0"/>
+        app:layout_constraintVertical_bias="0" />
 
     <Button
         android:id="@+id/list_photos_btn_add"
@@ -41,10 +43,11 @@
         android:backgroundTint="@color/primary"
         android:text="Adicionar Imagem"
         android:textColor="@color/light"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".95" />
+        app:layout_constraintVertical_bias="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
