@@ -33,6 +33,7 @@ public class ListPhotosActivity extends AppCompatActivity {
 
     GridView photosGridView;
     private StorageReference storageRef;
+    PhotoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +55,13 @@ public class ListPhotosActivity extends AppCompatActivity {
                     }).addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            PhotoAdapter adapter = new PhotoAdapter(getApplicationContext(), photoModelArrayList);
+                            adapter = new PhotoAdapter(ListPhotosActivity.this, photoModelArrayList);
                             photosGridView = findViewById(R.id.list_photos_grid);
                             photosGridView.setAdapter(adapter);
                         }
                     });
                 }
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println("Erro#1");
             }
         });
 

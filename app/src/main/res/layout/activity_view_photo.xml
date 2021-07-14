@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UploadPhotoActivity">
@@ -11,112 +11,60 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:background="@color/dark"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0"
-        android:text="Visualizar/Editar Imagem"
+        android:paddingTop="20dp"
+        android:text="Visualizar/Excluir Imagem"
+        android:textAlignment="center"
         android:textColor="@color/light"
         android:textSize="25dp"
         android:textStyle="bold"
-        android:textAlignment="center"
-        android:paddingTop="20dp"
-        />
-
-
-    <TextView
-        android:id="@+id/view_photo_text_info"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="15dp"
-        android:text="Clique na imagem para selecionar um novo arquivo"
-        android:textAlignment="center"
-        android:textSize="22dp"
-        android:textColor="@color/secondary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_photo_text_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0" />
 
 
     <ImageView
         android:id="@+id/view_photo_image"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginVertical="25dp"
-        android:src="@drawable/image"
         android:scaleType="fitCenter"
+        android:src="@drawable/image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_photo_text_info"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintTop_toBottomOf="@+id/view_photo_text_title"
+        app:layout_constraintVertical_bias="0.2" />
 
-    <EditText
+    <TextView
         android:id="@+id/view_photo_name"
-        android:layout_width="350dp"
-        android:layout_height="70dp"
-        android:layout_marginVertical="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:hint="Nome da imagem"
-        android:textColorHint="@color/secondary"
+        android:textAlignment="center"
+        android:padding="5dp"
         android:textColor="@color/secondary"
-        android:textSize="18dp"
+        android:textColorHint="@color/secondary"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_photo_image"
-        app:layout_constraintVertical_bias="0" />
-
-    <Button
-        android:id="@+id/view_photo_btn_download"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:backgroundTint="@color/secondary"
-        android:paddingHorizontal="25dp"
-        android:text="Fazer Download"
-        android:textColor="@color/light"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_photo_name"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/upload_photo_btn_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="25dp"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="@color/primary"
-        android:text="Salvar"
-        android:textColor="@color/light"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_photo_name"
-        app:layout_constraintVertical_bias=".75" />
+        app:layout_constraintVertical_bias="0.20" />
 
     <Button
         android:id="@+id/view_photo_btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="25dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:backgroundTint="@color/red"
-        android:text="Excluir"
+        android:paddingHorizontal="25dp"
+        android:text="Excluir Arquivo"
         android:textColor="@color/light"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_photo_name"
-        app:layout_constraintVertical_bias=".75" />
+        app:layout_constraintTop_toBottomOf="@+id/view_photo_name" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
