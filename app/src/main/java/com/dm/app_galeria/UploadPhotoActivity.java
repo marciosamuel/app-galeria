@@ -65,7 +65,7 @@ public class UploadPhotoActivity extends AppCompatActivity {
                 if(name.equals("")){
                     Toast.makeText(getApplicationContext(),"Informe um nome!", Toast.LENGTH_LONG).show();
                 }else{
-                    storageRef = FirebaseStorage.getInstance().getReference(name);
+                    storageRef = FirebaseStorage.getInstance().getReference("images/"+name);
                     storageRef.putFile(selectedImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

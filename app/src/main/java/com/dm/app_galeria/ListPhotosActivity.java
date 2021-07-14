@@ -1,30 +1,32 @@
 package com.dm.app_galeria;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.dm.app_galeria.Adapters.PhotoAdapter;
 import com.dm.app_galeria.Models.PhotoModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 
 public class ListPhotosActivity extends AppCompatActivity {
@@ -34,46 +36,55 @@ public class ListPhotosActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_list_photos);
-        storageRef = FirebaseStorage.getInstance().getReference("app-galeria");
+        ArrayList<PhotoModel> photoModelArrayList = new ArrayList<PhotoModel>();
+
+        storageRef = FirebaseStorage.getInstance().getReference().child("images");
+        System.out.println("Foi#1");
+
         storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
             public void onSuccess(ListResult listResult) {
-                ListView friendsListView = findViewById(R.id.listViewID);
-                Bitmap bitmap = null;
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                    imagemSelect.setImageDrawable(new BitmapDrawable(bitmap));
-                }catch (IOException e){
+                System.out.println("Foi#2");
+                for (StorageReference item : listResult.getItems()) {
+                    item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String selectedImagePath = getPath(uri);
+//                            photoModelArrayList.add(new PhotoModel(item.getName(), selectedImagePath, uri));
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            System.out.println("Error#2");
+                        }
+                    });
                 }
-                final ArrayList<ListResult> myFotos = new ArrayList<ListResult>(listResult);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.activity_list_item, myFotos);
-                friendsListView.setAdapter(listResult);
-                friendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(getApplicationContext(), "Hello " + myFotos.get(i), Toast.LENGTH_LONG).show();
-                    }
-                });
-
+                PhotoAdapter adapter = new PhotoAdapter(getApplicationContext(), photoModelArrayList);
+                photosGridView = findViewById(R.id.gridView);
+                photosGridView.setAdapter(adapter);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println("Erro#1");
             }
         });
 
-        ArrayList<PhotoModel> photoModelArrayList = new ArrayList<PhotoModel>();
-
-        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-
-        PhotoAdapter adapter = new PhotoAdapter(this, photoModelArrayList);
-        photosGridView.setAdapter(adapter);
+//        ArrayList<PhotoModel> photoModelArrayList = new ArrayList<PhotoModel>();
+//
+//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
+//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
+//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
+//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
+//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
+//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
+//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
+//
+//        PhotoAdapter adapter = new PhotoAdapter(getApplicationContext(), photoModelArrayList);
+//        photosGridView = findViewById(R.id.gridView);
+//        photosGridView.setAdapter(adapter);
 
         Button addImage = findViewById(R.id.list_photos_btn_add);
         addImage.setOnClickListener(new View.OnClickListener() {
@@ -83,5 +94,23 @@ public class ListPhotosActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public String getPath(Uri uri) {
+
+        if( uri == null ) {
+            return null;
+        }
+
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+
+        return uri.getPath();
     }
 }
