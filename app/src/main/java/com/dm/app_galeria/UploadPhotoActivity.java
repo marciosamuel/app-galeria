@@ -2,6 +2,7 @@ package com.dm.app_galeria;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -70,6 +72,11 @@ public class UploadPhotoActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Salvo com sucesso!", Toast.LENGTH_LONG).show();
                             titulo.setText("");
                             imagemSelect.setImageResource(R.drawable.image);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(),"Falha em salvar!", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
