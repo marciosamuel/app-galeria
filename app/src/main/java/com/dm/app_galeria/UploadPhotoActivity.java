@@ -15,28 +15,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
 public class UploadPhotoActivity extends AppCompatActivity {
 
-    private FirebaseStorage storage;
     private ImageButton imagemSelect;
     private Button submitBTN;
     private static final int SELECT_PICTURE = 1;
     private String selectedImagePath;
-    private EditText titulo = findViewById(R.id.upload_photo_name);
+    private EditText titulo;
+    private StorageReference storageRef;
+    private Uri selectedImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_photo);
 
-        StorageReference storageRef = storage.getReference();
+        titulo = findViewById(R.id.upload_photo_name);
 
         imagemSelect = findViewById(R.id.upload_photo_image);
         submitBTN = findViewById(R.id.submitBTN);
@@ -54,7 +59,20 @@ public class UploadPhotoActivity extends AppCompatActivity {
         submitBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StorageReference mountainsRef = storageRef.child(selectedImagePath);
+                String name = titulo.getText().toString();
+                if(name.equals("")){
+                    Toast.makeText(getApplicationContext(),"Informe um nome!", Toast.LENGTH_LONG).show();
+                }else{
+                    storageRef = FirebaseStorage.getInstance().getReference(name);
+                    storageRef.putFile(selectedImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(getApplicationContext(),"Salvo com sucesso!", Toast.LENGTH_LONG).show();
+                            titulo.setText("");
+                            imagemSelect.setImageResource(R.drawable.image);
+                        }
+                    });
+                }
             }
         });
     }
@@ -62,7 +80,7 @@ public class UploadPhotoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
-                Uri selectedImageUri = data.getData();
+                selectedImageUri = data.getData();
                 selectedImagePath = getPath(selectedImageUri);
                 Bitmap bitmap = null;
                 try {
@@ -96,10 +114,5 @@ public class UploadPhotoActivity extends AppCompatActivity {
         }
 
         return uri.getPath();
-    }
-
-    public void Submit(){
-        StorageReference storageRef = storage.getReference();
-        StorageReference mountainsRef = storageRef.child("mountains.jpg");
     }
 }
