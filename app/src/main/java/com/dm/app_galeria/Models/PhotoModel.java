@@ -1,12 +1,25 @@
 package com.dm.app_galeria.Models;
 
+import android.net.Uri;
+
 public class PhotoModel {
     private String photoName;
-    private int imageId;
+    private String imagePath;
+    private Uri imageUri;
 
-    public PhotoModel(String photoName, int imageId) {
+
+    public PhotoModel(String photoName, String imagePath, Uri imageUri) {
         this.photoName = photoName;
-        this.imageId = imageId;
+        this.imagePath = imagePath;
+        this.imageUri = imageUri;
+    }
+
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
     }
 
     public String getPhotoName() {
@@ -17,11 +30,11 @@ public class PhotoModel {
         this.photoName = photoName;
     }
 
-    public int getImageId() {
-        return imageId;
+    public String getimagePath() {
+        return imagePath;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setimagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

@@ -41,29 +41,26 @@ public class ListPhotosActivity extends AppCompatActivity {
         ArrayList<PhotoModel> photoModelArrayList = new ArrayList<PhotoModel>();
 
         storageRef = FirebaseStorage.getInstance().getReference().child("images");
-        System.out.println("Foi#1");
 
         storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
             public void onSuccess(ListResult listResult) {
-                System.out.println("Foi#2");
                 for (StorageReference item : listResult.getItems()) {
                     item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            String selectedImagePath = getPath(uri);
-//                            photoModelArrayList.add(new PhotoModel(item.getName(), selectedImagePath, uri));
+                            photoModelArrayList.add(new PhotoModel(item.getName(), uri.toString(), uri));
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
+                    }).addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
-                            System.out.println("Error#2");
+                        public void onSuccess(Uri uri) {
+                            PhotoAdapter adapter = new PhotoAdapter(getApplicationContext(), photoModelArrayList);
+                            photosGridView = findViewById(R.id.list_photos_grid);
+                            photosGridView.setAdapter(adapter);
                         }
                     });
                 }
-                PhotoAdapter adapter = new PhotoAdapter(getApplicationContext(), photoModelArrayList);
-                photosGridView = findViewById(R.id.gridView);
-                photosGridView.setAdapter(adapter);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -71,20 +68,6 @@ public class ListPhotosActivity extends AppCompatActivity {
                 System.out.println("Erro#1");
             }
         });
-
-//        ArrayList<PhotoModel> photoModelArrayList = new ArrayList<PhotoModel>();
-//
-//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-//        photoModelArrayList.add(new PhotoModel("Gatinho", R.drawable.gatinho));
-//
-//        PhotoAdapter adapter = new PhotoAdapter(getApplicationContext(), photoModelArrayList);
-//        photosGridView = findViewById(R.id.gridView);
-//        photosGridView.setAdapter(adapter);
 
         Button addImage = findViewById(R.id.list_photos_btn_add);
         addImage.setOnClickListener(new View.OnClickListener() {
@@ -94,23 +77,5 @@ public class ListPhotosActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    public String getPath(Uri uri) {
-
-        if( uri == null ) {
-            return null;
-        }
-
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-
-        return uri.getPath();
     }
 }

@@ -2,6 +2,7 @@ package com.dm.app_galeria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ public class ViewPhotoActivity extends AppCompatActivity {
         );
 
         ImageView itemImage = findViewById(R.id.view_photo_image);
-        itemImage.setImageResource(itensIntent.getInt("IMAGE_FILE"));
+
+
     }
 }
