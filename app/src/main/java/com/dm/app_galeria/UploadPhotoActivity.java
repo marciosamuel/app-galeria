@@ -72,6 +72,8 @@ public class UploadPhotoActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Salvo com sucesso!", Toast.LENGTH_LONG).show();
                             titulo.setText("");
                             imagemSelect.setImageResource(R.drawable.image);
+                            Intent intent = new Intent(getApplicationContext(), ListPhotosActivity.class);
+                            startActivity(intent);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
